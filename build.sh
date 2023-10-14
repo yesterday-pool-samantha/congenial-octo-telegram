@@ -48,7 +48,7 @@ chmod a+x ~/bin/repo
 mkdir -p /aosp
 cd /aosp
 retry yes | repo init -u https://github.com/GrapheneOS/platform_manifest.git -b 14 --depth=1
-retry repo sync -c -j4 --fail-fast --force-sync
+retry repo sync -c -j8 --fail-fast --force-sync
 
 yarn install --cwd vendor/adevtool/
 source build/envsetup.sh
@@ -66,4 +66,4 @@ ccache -M 20G
 ccache -o compression=true
 ccache -z
 
-m -j4 vendorbootimage target-files-package
+m -j5 vendorbootimage target-files-package
