@@ -1,0 +1,21 @@
+env:
+  CIRRUS_CLONE_DEPTH: 1
+  CIRRUS_WORKING_DIR: "/tmp/ci"
+task:
+  name: github-aosp
+  timeout_in: 120m
+  container:
+    image: ubuntu:23.04
+    cpu: 8
+    memory: 24G
+  ccache_cache:
+    folder: /tmp/ccache
+  on_failure:
+    upload_caches:
+      - ccache
+  initialize_script:
+    - ./initialize_script.sh
+  monitor_background_script:
+    - ./monitor.sh
+  entrypoint_script:
+    - timeout 80m ./build.sh bramble userdebug
