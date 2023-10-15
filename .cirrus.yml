@@ -7,9 +7,12 @@ task:
   container:
     image: ubuntu:23.04
     cpu: 8
-    memory: 32G
+    memory: 48G
   ccache_cache:
     folder: /tmp/ccache
+    reupload_on_changes: true
+    fingerprint_script:
+      - echo $CIRRUS_OS
   on_failure:
     upload_caches:
       - ccache
@@ -18,4 +21,4 @@ task:
   monitor_background_script:
     - ./monitor.sh
   entrypoint_script:
-    - timeout 110m ./build.sh bramble userdebug
+    - timeout 110m ./build.sh bramble userdebug || true

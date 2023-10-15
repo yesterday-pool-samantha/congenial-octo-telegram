@@ -63,11 +63,11 @@ while true; do echo "Still building..."; sleep 30; done &
 
 yarn install --cwd vendor/adevtool/
 source build/envsetup.sh
-m -j4 aapt2
+m -j8 aapt2
 
 vendor/adevtool/bin/run generate-all -d $DEVICE
 
 source build/envsetup.sh
 lunch $DEVICE-$TARGET
 
-m -j4 vendorbootimage target-files-package
+m -j8 vendorbootimage target-files-package
