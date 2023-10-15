@@ -37,6 +37,7 @@ retry() {
 
 DEVICE=$1
 TARGET=$2
+export DISABLE_ROBO_RUN_TESTS=true
 
 # set git identity
 git config --global user.email "someone@somewhere.com"
@@ -52,7 +53,7 @@ retry repo sync -c -j8 --fail-fast --force-sync
 
 yarn install --cwd vendor/adevtool/
 source build/envsetup.sh
-m aapt2
+m -j8 aapt2
 
 vendor/adevtool/bin/run generate-all -d $DEVICE
 
@@ -66,4 +67,4 @@ ccache -M 20G
 ccache -o compression=true
 ccache -z
 
-m -j5 vendorbootimage target-files-package
+m -j8 vendorbootimage target-files-package
