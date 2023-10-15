@@ -7,7 +7,7 @@ task:
   container:
     image: ubuntu:23.04
     cpu: 8
-    memory: 48G
+    memory: 32G
   ccache_cache:
     folder: /tmp/ccache
     reupload_on_changes: true
