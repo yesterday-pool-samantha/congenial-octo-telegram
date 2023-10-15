@@ -13,12 +13,12 @@ task:
     reupload_on_changes: true
     fingerprint_script:
       - echo $CIRRUS_OS
-  on_failure:
-    upload_caches:
-      - ccache
   initialize_script:
     - ./initialize_script.sh
   monitor_background_script:
     - ./monitor.sh
   entrypoint_script:
-    - timeout 110m ./build.sh bramble userdebug || true
+    - timeout 60m ./build.sh bramble userdebug
+  on_failure:
+    upload_caches:
+      - ccache
