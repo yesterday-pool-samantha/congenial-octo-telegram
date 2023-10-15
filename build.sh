@@ -59,13 +59,15 @@ ccache -z
 retry yes | repo init -u https://github.com/GrapheneOS/platform_manifest.git -b 14 --depth=1
 retry repo sync -c -j8 --fail-fast --force-sync
 
+while true; do echo "Still building..."; sleep 30; done &
+
 yarn install --cwd vendor/adevtool/
 source build/envsetup.sh
-m -j6 aapt2
+m -j4 aapt2
 
 vendor/adevtool/bin/run generate-all -d $DEVICE
 
 source build/envsetup.sh
 lunch $DEVICE-$TARGET
 
-m -j6 vendorbootimage target-files-package
+m -j4 vendorbootimage target-files-package
