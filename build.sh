@@ -48,17 +48,6 @@ chmod a+x ~/bin/repo
 
 mkdir -p /aosp
 cd /aosp
-retry yes | repo init -u https://github.com/GrapheneOS/platform_manifest.git -b 14 --depth=1
-retry repo sync -c -j8 --fail-fast --force-sync
-
-yarn install --cwd vendor/adevtool/
-source build/envsetup.sh
-m -j8 aapt2
-
-vendor/adevtool/bin/run generate-all -d $DEVICE
-
-source build/envsetup.sh
-lunch $DEVICE-$TARGET
 
 export CCACHE_DIR=/tmp/ccache
 export CCACHE_EXEC=$(which ccache)
@@ -67,4 +56,16 @@ ccache -M 20G
 ccache -o compression=true
 ccache -z
 
-m -j8 vendorbootimage target-files-package
+retry yes | repo init -u https://github.com/GrapheneOS/platform_manifest.git -b 14 --depth=1
+retry repo sync -c -j8 --fail-fast --force-sync
+
+yarn install --cwd vendor/adevtool/
+source build/envsetup.sh
+m -j6 aapt2
+
+vendor/adevtool/bin/run generate-all -d $DEVICE
+
+source build/envsetup.sh
+lunch $DEVICE-$TARGET
+
+m -j6 vendorbootimage target-files-package
